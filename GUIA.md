@@ -32,13 +32,13 @@ Vídeos de referência, no vault, em `execucao/atividades-ativas/`:
 
 - **Texto só parado.** Nada de texto viajando. O que se move pelas linhas é luz. Na primeira versão as mensagens andavam, e ninguém conseguia lê-las.
 - **Tempo de leitura:** pelo menos 1,5 s, e cerca de 1 s a cada três palavras. A câmera só volta a andar depois disso.
-- **Tamanho mínimo de 24 px numa tela de 1080p.** Valores usados: pergunta de 46 a 50 px, resposta de 56 px, linha secundária de 42 px e conversa de 40 px. Abaixo de 24 px, o texto some no celular.
+- **Tamanho mínimo de 24 px numa tela de 1080p.** Valores usados: pergunta de 46 a 50 px, resposta de 56 px, linha secundária de 42 px e conversa de 40 px. Abaixo de 24 px, o texto some no celular. Os valores medem o texto no quadro final, já com a câmera. No código, o número é menor quando a cena está em escala: o palco das cenas 1 e 2 é desenhado em escala de interface, e a câmera amplia de 1,95 a 2,8 vezes.
 - **Nada cortado na borda do quadro.**
 
 ## 5. Câmera e transições
 
 - **Movimento contínuo e suave, sem corte seco.** Os movimentos entre enquadramentos duram cerca de 1,6 s, com aceleração e desaceleração e sem inversão no meio. Os cortes secos da gramática do trailer de referência foram trocados por movimento a pedido do Jorge.
-- **Sem fade de imagem entre planos.** A troca de cena acontece por transformação: o logo encolhe e vira o card, a lente da lupa vira a janela do navegador.
+- **Sem fade de imagem entre planos.** A troca de cena acontece por transformação: o logo encolhe e vira o cabeçalho do painel, e a caixa de pedidos cresce até virar a janela do Claude.
 - **Aproximação só para provar.** No vídeo do MCP, a única aproximação de leitura é de 15%, no trecho da conversa que prova o diagnóstico. Uma aproximação maior cortaria a resposta.
 - **Movimento mínimo.** Se a câmera não está levando o olho a algo novo, ela fica parada.
 
@@ -61,12 +61,13 @@ Quando a narração lista itens, por exemplo "quantas chegaram, quantas ficaram 
 
 ## 8. Identidade visual
 
-- **Cores do produto:** primária #009EF7, fundo #F5F8FA, texto #181C32 (do tema "tintim" em `frontend/src/app.css`). Destaque em lima #E8F04F, do guia de marca.
-- **Não use lima sobre branco.** O guia de marca desaconselha. Por isso a peça MCP é navy com a sigla em lima.
-- **Grid de fundo só sobre azul ou navy,** como no manual. Sobre fundo claro, sem grid.
-- **Fontes:** Eudoxus Sans e Inter, as mesmas do produto (`frontend/fonts` em `tintim-locals`). As telas do Claude usam fontes substitutas, porque as dele não estão disponíveis.
+- **Cores da marca, nas cenas do vídeo** (`marca.ts`): azul #1670CB, lima #E8F04F, navy #0A1C33, halftone #4A9BE8 (brilho das linhas) e verde do WhatsApp #25D366 (pulsos das conversas que chegam). O fundo do palco é um degradê radial navy, de #10294A no centro a #071527 nas bordas, com uma luz azul atrás do painel.
+- **Cores do produto, só nas telas reconstruídas do Tintim:** primária #009EF7, fundo #F5F8FA, texto #181C32 (do tema "tintim" em `frontend/src/app.css`). Elas servem para a tela parecer a real, e não para as cenas de marca.
+- **Não use lima sobre branco.** O guia de marca desaconselha. Por isso a peça do MCP, lima com a sigla em navy, aparece sempre sobre o palco escuro. Sobre fundo claro, o lima aparece só como realce de marca-texto, transparente e atrás de texto escuro.
+- **Grid de fundo só sobre azul ou navy,** como no manual. Sobre fundo claro, sem grid. O vídeo do MCP não usou grid: o palco tem só o degradê e a luz.
+- **Fontes:** Eudoxus Sans e Inter, as mesmas do produto (`frontend/fonts` em `tintim-locals`). As telas do Claude usam fontes substitutas, porque as dele não estão disponíveis: Hanken Grotesk na interface e Source Serif 4 no texto das respostas. A paleta do Claude fica em `Partes23.tsx` (fundo #FAF9F5, balão #F0EEE6, texto #141413 e o coral #D97757 da marca).
 - **Logos oficiais** do Meta Ads e do Google Ads, nunca redesenhados.
-- **Mascote:** use o vetor oficial, `logo-full.svg`, em `identidade-visual/2026-10-15/assets-oficiais/`. O manual proíbe redesenhar as poses. A piscadela foi animada nos próprios olhos do vetor (`Vector_39` e `Vector_40`, sobrancelha em `Vector_35`), sem máscara.
+- **Mascote:** use o vetor oficial, `logo-full.svg`, em `identidade-visual/2026-10-15/assets-oficiais/`. O manual proíbe redesenhar as poses. A piscadela foi animada nos próprios olhos do vetor (`Vector_39` e `Vector_40`, sobrancelha em `Vector_35`), sem máscara. O olho fecha em 3 quadros até 16% da altura, fica fechado 2 quadros e abre em 4.
 
 ## 9. Som
 
@@ -74,8 +75,8 @@ Quando a narração lista itens, por exemplo "quantas chegaram, quantas ficaram 
 - **Música lo-fi, calma e humana.** Faixas "corporativas" e dramáticas foram rejeitadas. A do vídeo do MCP é a Rhodes Chill (ColorFilmMusic, 112 BPM), da Envato.
 - **Música 15 LU abaixo da voz, constante e sem ducking.** Voz em cerca de -21,5 LUFS, música em -36 a -39 dB nas pausas.
 - **Fade-in de 1 s. O fade-out começa numa cabeça de compasso e termina no último quadro.** O compasso vem do BPM. Um fade que começa no meio do compasso soa como erro.
-- **Efeitos de interface discretos:** clique quando o logo assenta, clique de encaixe na peça MCP, nada de acorde no início (soou como buzina).
-- **Piscadela do mascote: um único "pim" fino e rápido.** Senoide pura em 2093 Hz (C7), 150 ms, ataque de 2 ms, pico em cerca de -19 dB, no instante em que o olho fecha. Sino composto e brinde de taças foram rejeitados.
+- **Efeitos de interface discretos:** clique quando o logo assenta, clique de encaixe na peça MCP, nada de acorde no início (soou como buzina). Também há um clique quando a pergunta e a resposta entram e em cada botão que o cursor aperta. Volumes no `App.tsx`: clique do logo 0,45, encaixe do MCP 0,7 e os outros cliques 0,3.
+- **Piscadela do mascote: um único "pim" fino e rápido.** Senoide pura em 2093 Hz (C7), 150 ms, ataque de 2 ms, pico em cerca de -19 dB, no instante em que o olho fecha (quadro `piscada + 3`, volume 0,25). Sino composto e brinde de taças foram rejeitados.
 
 ## 10. Entrega
 
