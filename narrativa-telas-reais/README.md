@@ -11,11 +11,12 @@ O Jorge, sobre o resultado: "Isso ficou uma verdadeira narrativa com telas reais
 | `GUIA.md` | As regras do estilo, cada uma com o número exato, o porquê e a fala do Jorge que a originou. História, texto das conversas, fecho, música, ritmo, câmera, cursor, telas, som, código, entrega e como trabalhar com o Jorge | Antes de escrever qualquer coisa |
 | `PROCESSO.md` | O passo a passo, da história em uma página ao arquivo conferido, com os comandos | Durante a produção |
 | `FILME-1-ANATOMIA.md` | O filme de referência cena por cena, o mapa de tempos completo e o histórico das nove versões | Para ver as regras aplicadas |
+| `SKILL.md` | O texto da skill `tintim-narrativa-telas-reais`: a camada densa das regras, que o Claude carrega sozinho quando o pedido é deste estilo | Para manter a skill igual ao guia |
 | `componentes/filme-1-lead-ruim/` | O código Remotion da v3.6, igual ao do projeto do Kino, e as ferramentas de som e de tempo | Para começar um filme novo sem redesenhar as telas |
 
 ## Como usar num filme novo
 
-Peça ao Claude para ler o `GUIA.md` e o `PROCESSO.md` antes de propor a história. A skill `tintim-narrativa-telas-reais` traz as mesmas regras e é carregada sozinha quando o pedido é desse tipo.
+Peça ao Claude para ler o `GUIA.md` e o `PROCESSO.md` antes de propor a história. A skill `tintim-narrativa-telas-reais` traz as mesmas regras em forma densa (212 linhas) e aponta para esta pasta. O texto dela está em `SKILL.md`.
 
 Quando o Jorge corrigir uma regra, mude o `GUIA.md` e a skill na mesma hora, com a fala dele entre aspas. Este guia vale pelo que registra de reprovações, e não pelo que eu acho bonito.
 
