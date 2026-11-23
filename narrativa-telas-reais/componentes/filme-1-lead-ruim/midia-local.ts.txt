@@ -1,0 +1,3 @@
+import { staticFile } from "remotion";
+export const M = { logoAzul: staticFile("logo-azul.png"), claude: staticFile("claude-tile.png"), chatgpt: staticFile("chatgpt-tile.png"), doodleEscuro: staticFile("wa-doodle-escuro.png") };
+export const S = { musica: staticFile("jazz-66.wav"), efeitos: staticFile("sfx-v3-efeitos.wav") };
