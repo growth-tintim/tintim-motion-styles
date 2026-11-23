@@ -1,0 +1,4 @@
+// Versão local, para renderizar no container. No Kino, os mesmos nomes apontam para "kino:<id>" (midia-kino.ts).
+import { staticFile } from "remotion";
+export const M = { logoAzul: staticFile("logo-azul.png"), claude: staticFile("claude-tile.png"), chatgpt: staticFile("chatgpt-tile.png"), doodle: staticFile("wa-doodle-bege.png") };
+export const S = { musica: staticFile("jazz-37.wav"), efeitos: staticFile("sfx-v37-efeitos.wav") };
