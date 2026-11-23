@@ -10,7 +10,7 @@ import { IC } from "../icones";
 import { SISTEMA, WI } from "../marca";
 import { M } from "../midia";
 import { CHEGA, IOS, TECLADO, TELA, trava } from "../geometria";
-import { ABERTAS, AMOR, Chat, DIG, PAULA, PROVA, RENATO, RESPOSTA2, T, textoEm } from "../tempos";
+import { ABERTAS, Chat, DIG, MARCELA, PAULA, PROVA, RENATO, RESPOSTA2, T, textoEm } from "../tempos";
 import { Foto, Toque } from "./Sistema";
 import { Tecla, Teclado } from "./Teclado";
 
@@ -64,20 +64,20 @@ const campoDe = (chat: Chat, f: number) => {
     if (f >= T.envio1) return "";
     return textoEm(DIG.abre, f) + (f >= T.quebra ? "\n" : "") + (f >= T.cola ? PROVA.join("\n") : "");
   }
-  if (chat === AMOR) return f < T.mandaAmor ? textoEm(DIG.amor, f) : "";
+  if (chat === MARCELA) return f < T.envio3 ? textoEm(DIG.marcela, f) : "";
   if (chat === PAULA) return f >= T.cola2 && f < T.envio2 ? [RESPOSTA2[0], "", ...RESPOSTA2.slice(1)].join("\n") : "";
   return "";
 };
 // Onde ele toca na caixa para colar, e quando toca em enviar, em cada conversa.
 const COLAR = new Map<Chat, { toque: number; cola: number }>([[RENATO, { toque: T.toque3, cola: T.cola }], [PAULA, { toque: T.toque5, cola: T.cola2 }]]);
-const envioDe = (chat: Chat, f: number) => (chat === RENATO ? (f < T.troca ? -1 : T.envio1) : chat === AMOR ? T.mandaAmor : T.envio2);
+const envioDe = (chat: Chat, f: number) => (chat === RENATO ? (f < T.troca ? -1 : T.envio1) : chat === MARCELA ? T.envio3 : T.envio2);
 const digitando = (f: number) =>
-  [DIG.defesa, DIG.abre, DIG.amor].some((d) => f >= d[0].f - 2 && f <= d[d.length - 1].f + 6) || (f >= T.quebra && f <= T.envio1);
+  [DIG.defesa, DIG.abre, DIG.marcela].some((d) => f >= d[0].f - 2 && f <= d[d.length - 1].f + 6) || (f >= T.quebra && f <= T.envio1);
 
-const TECLAS: Tecla[] = [...DIG.defesa, ...DIG.abre, { f: T.quebra, c: "⏎" }, ...DIG.amor].map((k) => ({ q: k.f, c: k.c }));
+const TECLAS: Tecla[] = [...DIG.defesa, ...DIG.abre, { f: T.quebra, c: "⏎" }, ...DIG.marcela].map((k) => ({ q: k.f, c: k.c }));
 
 // Sugestões do teclado: a palavra como está, a palavra que ele vai escrever e uma alternativa comum.
-const ALVO: [number, string][] = [[0, "Mas o custo por conversa"], [T.troca, "Olhei as conversas de ontem:"], [T.abreAmor, "Desculpa amor, não vai acontecer mais!"]];
+const ALVO: [number, string][] = [[0, "Mas o custo por conversa caiu. O problema é o atendimento de vocês"], [T.troca, "Olhei as conversas de ontem:"], [T.troca3, "Não perdeu: os 7 já estão em Negociação."]];
 const sugerir = (texto: string, f: number) => {
   const linha = texto.split("\n").pop() ?? "";
   if (linha === "") return texto === "" ? ["Oi", "Eu", "O"] : ["Eu", "O", "A"];

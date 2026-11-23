@@ -11,7 +11,7 @@ import { loadFont as carregaSerifa } from "@remotion/google-fonts/SourceSerif4";
 import { CL as COR } from "../marca";
 import { M } from "../midia";
 import { CHEGA, IOS, SUAVE, surge, TECLADO, TELA, trava } from "../geometria";
-import { DIG, PERGUNTA, PERGUNTA2, RESPOSTA2, T, textoEm } from "../tempos";
+import { DIG, PERGUNTA, PERGUNTA2, PERGUNTA3, RESPOSTA2, T, textoEm } from "../tempos";
 import { Toque } from "./Sistema";
 import { MarcaClaude } from "./MarcaClaude";
 import { Tecla, Teclado } from "./Teclado";
@@ -50,7 +50,7 @@ const Redondo = ({ children, w = 43 }: { children: React.ReactNode; w?: number }
   <div style={{ width: w, height: 43, borderRadius: 21.5, background: "rgba(255,255,255,.9)", boxShadow: "0 0 0 .5px rgba(31,30,29,.08), 0 3px 12px rgba(31,30,29,.09)", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>{children}</div>
 );
 
-const TECLAS: Tecla[] = [...DIG.pergunta, ...DIG.pergunta2].map((k) => ({ q: k.f, c: k.c }));
+const TECLAS: Tecla[] = [...DIG.pergunta, ...DIG.pergunta2, ...DIG.pergunta3].map((k) => ({ q: k.f, c: k.c }));
 const sugerir = (texto: string, alvo: string) => {
   const PALAVRAS = alvo.split(" ");
   if (texto === "") return ["Eu", "O", "Como"];
@@ -82,16 +82,20 @@ export const ClaudeIOS = ({ f }: { f: number }) => {
   }, []);
 
   const abre = (de: number, ate: number) => interpolate(f, [de + 2, de + 12], [0, 1], IOS) - interpolate(f, [ate + 1, ate + 11], [0, 1], IOS);
-  const k = abre(T.toque2, T.envia) + abre(T.toque4, T.envia2);
+  const k = abre(T.toque2, T.envia) + abre(T.toque4, T.envia2) + abre(T.toque6, T.envia3);
   const enviado = f >= T.envia;
   const segunda = f >= T.toque4;
-  const texto = !enviado ? textoEm(DIG.pergunta, f) : segunda && f < T.envia2 ? textoEm(DIG.pergunta2, f) : "";
-  const digitandoAgora = (f >= T.dig2 - 2 && f <= T.envia) || (f >= T.dig5 - 2 && f <= T.envia2);
+  const terceira = f >= T.toque6;
+  const texto = !enviado ? textoEm(DIG.pergunta, f) : terceira ? (f < T.envia3 ? textoEm(DIG.pergunta3, f) : "") : segunda && f < T.envia2 ? textoEm(DIG.pergunta2, f) : "";
+  const digitandoAgora = (f >= T.dig2 - 2 && f <= T.envia) || (f >= T.dig5 - 2 && f <= T.envia2) || (f >= T.dig6 - 2 && f <= T.envia3);
   const cursor = k > 0.5 && (digitandoAgora || Math.floor(f / 16) % 2 === 0);
-  const aperto = interpolate(f, [T.envia - 3, T.envia - 1, T.envia + 2], [0, 1, 0], trava) + interpolate(f, [T.envia2 - 3, T.envia2 - 1, T.envia2 + 2], [0, 1, 0], trava);
+  const aperto = interpolate(f, [T.envia - 3, T.envia - 1, T.envia + 2], [0, 1, 0], trava) + interpolate(f, [T.envia2 - 3, T.envia2 - 1, T.envia2 + 2], [0, 1, 0], trava) + interpolate(f, [T.envia3 - 3, T.envia3 - 1, T.envia3 + 2], [0, 1, 0], trava);
   // Na segunda pergunta, a conversa sobe até a pergunta nova ficar no topo, como o app faz.
   const D = 560;
-  const rola = interpolate(f, [T.envia2 + 1, T.envia2 + 14], [0, D], IOS);
+  const D2 = 330; // altura da segunda pergunta com a resposta, mais folga
+  const rola = interpolate(f, [T.envia2 + 1, T.envia2 + 14], [0, D], IOS) + interpolate(f, [T.envia3 + 1, T.envia3 + 14], [0, D2], IOS);
+  const pergunta3 = interpolate(f, [T.envia3 + 2, T.envia3 + 10], [0, 1], CHEGA);
+  const trabalhando3 = f >= T.envia3 + 8 && f < T.t1 + 8;
   const pergunta2 = interpolate(f, [T.envia2 + 2, T.envia2 + 10], [0, 1], CHEGA);
   const trabalhando2 = f >= T.envia2 + 8 && f < T.s4 + 10;
   const pronto2 = f >= T.s4 + 10;
@@ -107,7 +111,7 @@ export const ClaudeIOS = ({ f }: { f: number }) => {
   const copiado = false;
   const caixaBase = 26 + Math.max(0, k) * (TECLADO.h + 10 - 26);
   const toque = (em: number, dur = 9) => interpolate(f, [em - 3, em + dur], [0, 1], trava);
-  const sugestoes = sugerir(texto, segunda ? PERGUNTA2 : PERGUNTA);
+  const sugestoes = sugerir(texto, terceira ? PERGUNTA3 : segunda ? PERGUNTA2 : PERGUNTA);
 
   return (
     <div name="Claude" style={{ position: "absolute", inset: 0, background: COR.fundo, color: COR.texto, fontFamily: SANS, overflow: "hidden" }}>
@@ -205,6 +209,20 @@ export const ClaudeIOS = ({ f }: { f: number }) => {
         </div>
       ) : null}
 
+      {f >= T.envia3 ? (
+        <div name="Conversa, terceira pergunta" style={{ position: "absolute", left: 0, top: 112 + D + D2 - rola, width: TELA.w, boxSizing: "border-box", padding: "0 25px", display: "flex", flexDirection: "column" }}>
+          <div name="Pergunta 3" style={{ alignSelf: "flex-end", maxWidth: 272, boxSizing: "border-box", padding: "11px 16px 12px", borderRadius: 18, background: COR.balao, fontSize: 16, lineHeight: "21px", opacity: pergunta3, translate: `0px ${(1 - pergunta3) * 14}px` }}>{PERGUNTA3}</div>
+          {f >= T.ferr4 ? <div style={{ marginTop: 14 }}><Ferramenta nome="leads_batch_status_preview" op={surge(f, T.ferr4)} ativa={f < T.ferr5} /></div> : null}
+          {f >= T.ferr5 ? <Ferramenta nome="leads_batch_status_change" op={surge(f, T.ferr5)} ativa={f < T.t1} /> : null}
+          {f >= T.t1 ? <div name="Resposta 3" style={{ marginTop: 8, fontFamily: SERIFA, fontSize: 16.5, lineHeight: "23px", opacity: surge(f, T.t1) }}>Pronto. Movi para Negociação os <B>7 leads</B> da Studio Pilates que pediram preço ontem.</div> : null}
+          <div name="Rodapé da resposta 3" style={{ marginTop: 14, height: 30, display: "flex", alignItems: "center" }}>
+            <div name="Símbolo do Claude" style={{ opacity: surge(f, T.envia3 + 8), scale: String(trabalhando3 ? 1 + 0.08 * Math.sin((f - T.envia3) / 3.2) : 1), rotate: `${trabalhando3 ? (f - T.envia3) * 2.2 : 0}deg` }}>
+              <MarcaClaude tamanho={26} />
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <div name="Botões do topo" style={{ position: "absolute", left: 20, top: 61, width: TELA.w - 40, display: "flex", justifyContent: "space-between", zIndex: 4 }}>
         <Redondo><Tra d="M3 4.400h10M3 8h7.200M3 11.600h4.400" t={19} l={1.4} /></Redondo>
         <Redondo w={100}>
@@ -224,6 +242,7 @@ export const ClaudeIOS = ({ f }: { f: number }) => {
         </div>
         <Toque p={toque(T.toque2)} />
         <Toque p={toque(T.toque4)} />
+        <Toque p={toque(T.toque6)} />
         <div style={{ position: "absolute", left: 10, right: 10, bottom: 9, height: 36, display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 36, height: 36, borderRadius: 18, background: COR.pilula, display: "flex", alignItems: "center", justifyContent: "center" }}><Tra d="M8 3v10M3 8h10" t={18} l={1.4} /></div>
           <div style={{ height: 36, padding: "0 14px", borderRadius: 18, background: COR.pilula, fontSize: 14, lineHeight: "36px" }}>Opus</div>
@@ -234,6 +253,7 @@ export const ClaudeIOS = ({ f }: { f: number }) => {
               <Tra d="M8 12.800V3.400M4 7.200l4-4 4 4" t={20} cor="#FFFFFF" l={1.5} />
               <Toque p={toque(T.envia - 1)} />
               <Toque p={toque(T.envia2 - 1)} />
+              <Toque p={toque(T.envia3 - 1)} />
             </div>
           ) : (
             <div name="Voz" style={{ width: 37, height: 37, borderRadius: 18.500, background: "#141413", display: "flex", alignItems: "center", justifyContent: "center" }}>
