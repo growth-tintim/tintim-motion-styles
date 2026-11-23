@@ -33,18 +33,16 @@ const Cartao = ({ a, f, y, p, fundo }: { a: Aviso; f: number; y: number; p: numb
   </div>
 );
 
-export const Avisos = ({ f }: { f: number }) => {
-  const vivos = AVISOS.filter((a) => presenca(a, f) > 0);
-  return (
-    <div name="Avisos" style={{ position: "absolute", left: 0, top: 50, width: TELA.w, height: 0, zIndex: 26 }}>
-      {vivos.map((a) => {
-        const p = presenca(a, f);
-        // o que vem por cima empurra este para baixo, na medida em que entra
-        const novos = vivos.filter((b) => b.f > a.f);
-        const y = novos.reduce((s, b) => s + (altura(b) + VAO) * interpolate(f, [b.f, b.f + 11], [0, 1], IOS), 0) - (1 - interpolate(f, [a.f, a.f + 11], [0, 1], IOS)) * 140;
-        const fundo = novos.length >= 3 ? interpolate(f, [novos[2].f, novos[2].f + 8], [0, 1], trava) : 0;
-        return <Cartao key={a.f} a={a} f={f} y={y} p={p} fundo={fundo} />;
-      })}
-    </div>
-  );
-};
+// Um aviso de cada vez: o novo substitui o anterior, como no iOS.
+export const Avisos = ({ f }: { f: number }) => (
+  <div name="Avisos" style={{ position: "absolute", left: 0, top: 50, width: TELA.w, height: 0, zIndex: 26 }}>
+    {AVISOS.map((a, i) => {
+      const prox = AVISOS[i + 1];
+      const b = { ...a, ate: prox ? Math.min(a.ate, prox.f) : a.ate };
+      const p = presenca(b, f);
+      if (p <= 0) return null;
+      const y = -(1 - interpolate(f, [a.f, a.f + 11], [0, 1], IOS)) * 140 - interpolate(f, [b.ate, b.ate + 8], [0, 1], IOS) * 140;
+      return <Cartao key={a.f} a={a} f={f} y={y} p={p} fundo={0} />;
+    })}
+  </div>
+);

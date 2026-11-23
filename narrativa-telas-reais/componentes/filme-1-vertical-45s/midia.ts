@@ -8,5 +8,5 @@ export const M = {
 };
 export const S = {
   musica: "kino:PENDENTE", // le-jazz_short-03_66sec_corte-45s.wav (ferramentas/corta-musica.py)
-  efeitos: "kino:PENDENTE", // sfx-v45c-efeitos.wav, gerado por ferramentas/gera-efeitos.py
+  efeitos: "kino:PENDENTE", // sfx-v45d-efeitos.wav, gerado por ferramentas/gera-efeitos.py
 };

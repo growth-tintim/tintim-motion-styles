@@ -186,8 +186,6 @@ const A = -1; // mensagem que já estava lá antes do filme
 
 const F_PAULA: Foto = { sigla: "VS", cor: "#0E7C86" };
 const F_MARCELA: Foto = { sigla: "SP", cor: "#7A4FB5" };
-const F_BARAO: Foto = { sigla: "AB", cor: "#7A3E12" };
-const F_BETO: Foto = { sigla: "B", cor: "#5B5F66" };
 
 export const RENATO: Chat = {
   id: "renato",
@@ -221,9 +219,9 @@ export const PAULA: Chat = {
   digitando: [[T.envio2 + 10, T.paula2]],
   msgs: [
     { f: A, lado: "d", t: "Bom dia! Relatório da semana enviado.", hora: "08:12", dia: "Hoje", lida: A },
-    { f: bt(8), lado: "e", t: PAULA_1, hora: "08:48" },
-    { f: bt(10), lado: "e", t: PAULA_2, hora: "08:48" },
-    { f: T.r3, lado: "e", t: "Lucas??", hora: "08:50" },
+    { f: bt(11), lado: "e", t: PAULA_1, hora: "08:48" },
+    { f: bt(12), lado: "e", t: PAULA_2, hora: "08:48" },
+    { f: bt(38), lado: "e", t: "Lucas??", hora: "08:51" },
     { f: T.aviso5, lado: "e", t: "Lucas???", hora: "08:52" },
     { f: T.envio2, lado: "d", t: [RESPOSTA2[0], "", ...RESPOSTA2.slice(1)].join("\n"), hora: "08:54", lida: T.envio2 + 9 },
     { f: T.paula2, lado: "e", t: "Perfeito. Sobe a verba no vídeo.", hora: "08:54" },
@@ -236,7 +234,7 @@ export const MARCELA: Chat = {
   msgs: [
     { f: A, lado: "e", t: "Dá pra aumentar a verba esse mês?", hora: "19:10", dia: "Ontem" },
     { f: A, lado: "d", t: "Dá, sim. Amanhã cedo te mando a proposta.", hora: "19:25", lida: A },
-    { f: bt(9), lado: "e", t: MARCELA_1, hora: "08:48", dia: "Hoje" },
+    { f: T.r3, lado: "e", t: MARCELA_1, hora: "08:50", dia: "Hoje" },
     { f: T.aviso7, lado: "e", t: "Perdi tudo?", hora: "08:54" },
     { f: T.envio3, lado: "d", t: RESPOSTA_MARCELA, hora: "08:56", lida: T.envio3 + 10 },
   ],
@@ -246,17 +244,13 @@ export const MARCELA: Chat = {
 // "ate": quando ele some (troca de app, ou ele toca nele). "toque": ele toca no aviso para abrir a conversa.
 export type Aviso = { f: number; ate: number; de: string; t: string; foto: Foto; toque?: boolean };
 export const AVISOS: Aviso[] = [
-  { f: bt(8), ate: T.desliza + 2, de: "Dra. Paula · Viva Sorriso", t: PAULA_1, foto: F_PAULA },
-  { f: bt(9), ate: T.desliza + 2, de: "Marcela · Studio Pilates", t: MARCELA_1, foto: F_MARCELA },
-  { f: bt(10), ate: T.desliza + 2, de: "Dra. Paula · Viva Sorriso", t: PAULA_2, foto: F_PAULA },
-  { f: bt(11), ate: T.desliza + 2, de: "Seu Barão · Auto Center", t: "Meu filho, o telefone não tocou hoje. Esse anúncio tá ligado?", foto: F_BARAO },
-  { f: bt(13), ate: T.desliza + 2, de: "Beto do futebol", t: "E aí, campeão! Consegue me emprestar 500 até sexta? 🙏", foto: F_BETO },
-  { f: T.r3, ate: T.r3 + 44, de: "Dra. Paula · Viva Sorriso", t: "Lucas??", foto: F_PAULA },
-  { f: T.aviso5, ate: T.toqueAviso5 + 3, de: "Dra. Paula · Viva Sorriso", t: "Lucas???", foto: F_PAULA, toque: true },
-  { f: bt(49) + 5, ate: bt(51) + 4, de: "Beto do futebol", t: "300 já ajuda", foto: F_BETO },
-  { f: T.aviso7, ate: T.toqueAviso7 + 3, de: "Marcela · Studio Pilates", t: "Perdi tudo?", foto: F_MARCELA, toque: true },
-  { f: T.paula2, ate: T.paula2 + 40, de: "Dra. Paula · Viva Sorriso", t: "Perfeito. Sobe a verba no vídeo.", foto: F_PAULA },
-  { f: T.aviso6, ate: T.toqueAviso6 + 3, de: "Renato · Ótica Central", t: "Falei com a equipe.", foto: RENATO.foto, toque: true },
+  // Um de cada vez, e cada um puxa a ação seguinte dele (Jorge: "tá numa tela, aparece outra [...] ele vai reagindo ao fluxo").
+  { f: bt(11), ate: T.desliza + 2, de: "Dra. Paula · Viva Sorriso", t: PAULA_1, foto: F_PAULA }, // ele para a resposta atravessada, apaga e vai buscar a prova
+  { f: T.r3, ate: T.r3 + 44, de: "Marcela · Studio Pilates", t: MARCELA_1, foto: F_MARCELA }, // chega enquanto o Claude responde: a fila cresce
+  { f: T.aviso5, ate: T.toqueAviso5 + 3, de: "Dra. Paula · Viva Sorriso", t: "Lucas???", foto: F_PAULA, toque: true }, // mal manda a prova, a Paula cobra: ele abre
+  { f: T.aviso7, ate: T.toqueAviso7 + 3, de: "Marcela · Studio Pilates", t: "Perdi tudo?", foto: F_MARCELA, toque: true }, // mal responde a Paula, a Marcela: ele abre
+  { f: T.paula2, ate: T.paula2 + 40, de: "Dra. Paula · Viva Sorriso", t: "Perfeito. Sobe a verba no vídeo.", foto: F_PAULA }, // o retorno da Paula, enquanto ele já está no próximo
+  { f: T.aviso6, ate: T.toqueAviso6 + 3, de: "Renato · Ótica Central", t: "Falei com a equipe.", foto: RENATO.foto, toque: true }, // mal responde a Marcela, o Renato: ele abre
 ];
 
 // Qual conversa está aberta e quando a troca começa (empurra da direita, como no iOS).
@@ -280,21 +274,20 @@ export const HORAS: [number, string][] = [[0, "08:47"], [T.troca, "08:48"], [T.v
 export const horaEm = (f: number) => HORAS.filter((h) => h[0] <= f).pop()![1];
 
 // ───────────── Câmera ─────────────
-// Ponto da tela (em pontos) no centro do quadro e ampliação (pixels por ponto). Pedido do Jorge: "pode ser um pouco mais aberto".
-// A v1 ia até 3,5. Agora o máximo é 2,75 (a tela na largura do quadro) e a base é 2,6: a tela inteira na largura, com um respiro
-// azul dos lados. Abaixo de 2,6 o texto das mensagens (17 pt) ficaria com menos de 44 px no quadro.
-// Sem arredondar nada (GUIA.md, 7.6).
-const BASE = { x: 196.5, y: 369.3, m: 2.6 };
-const PERTO = (y: number) => ({ x: 196.5, y, m: 2.75 });
+// A tela ocupa o quadro inteiro o tempo todo, como numa gravação de tela (Jorge, 23/11: "Nada aparece assim num celular").
+// Ampliação fixa de 2,75: a tela de 393 pt na largura de 1080 px, sem as aproximações de 3 a 3,5 da v1 ("fechando demais").
+// A câmera só sobe e desce, entre y = 349,1 e 502,9, para a tela cobrir o quadro. Sem arredondar nada (GUIA.md, 7.6).
+const M = 2.75;
+const Y = (y: number) => ({ x: 196.5, y, m: M });
 export const CAMERA: Chave[] = [
-  { f: 0, ...PERTO(424) }, // a reclamação, mais de perto
-  { f: bt(7), ...PERTO(420), e: "linear" },
-  { f: bt(8) + 4, ...BASE }, // abre para os avisos que se empilham
-  { f: T.ferr1 - 4, ...BASE, e: "linear" },
-  { f: T.r1 + 4, ...PERTO(400) }, // a resposta do Claude
-  { f: T.volta - 2, ...PERTO(402), e: "linear" },
-  { f: T.trocaVolta + 2, ...BASE },
-  { f: T.abreRenato, ...BASE, e: "linear" },
-  { f: T.abreRenato + 24, ...PERTO(404) }, // o fim do Renato
-  { f: T.some, ...PERTO(406), e: "linear" },
+  { f: 0, ...Y(420) }, // a reclamação no centro do quadro
+  { f: bt(9), ...Y(416), e: "linear" },
+  { f: bt(11) - 2, ...Y(349.4) }, // sobe para o topo antes do aviso
+  { f: T.ferr1 - 4, ...Y(349.4), e: "linear" },
+  { f: T.r1 + 4, ...Y(400) }, // a resposta do Claude
+  { f: T.volta - 2, ...Y(402), e: "linear" },
+  { f: T.trocaVolta + 2, ...Y(349.4) },
+  { f: T.abreRenato, ...Y(349.4), e: "linear" },
+  { f: T.abreRenato + 24, ...Y(404) }, // o fim do Renato
+  { f: T.some, ...Y(406), e: "linear" },
 ];

@@ -1,4 +1,4 @@
-// Despeja a lista de sons do filme vertical v2 em out/sons-v45c.json, para o gera-efeitos.py montar a faixa de efeitos.
+// Despeja a lista de sons do filme vertical v2 em out/sons-v45d.json, para o gera-efeitos.py montar a faixa de efeitos.
 // npx esbuild src/v45/ferramentas/despeja.ts --bundle --platform=node --outfile=out/despeja-v45.cjs --log-level=error && node out/despeja-v45.cjs
 import { ABERTAS, AVISOS, DIG, T, TROCAS } from "../tempos";
 import { writeFileSync } from "node:fs";
@@ -16,5 +16,5 @@ for (const { chat } of ABERTAS) for (const m of chat.msgs) if (m.f >= 0 && m.lad
 for (const a of AVISOS) s.push({ f: a.f, som: "aviso", v: 1 });
 for (const t of TROCAS) s.push({ f: t.de, som: "chicote", v: 1 });
 s.sort((a, b) => a.f - b.f);
-writeFileSync("out/sons-v45c.json", JSON.stringify({ T, sons: s }));
+writeFileSync("out/sons-v45d.json", JSON.stringify({ T, sons: s }));
 console.log(s.length, "sons", JSON.stringify(s.filter((x) => x.som !== "tecla" && x.som !== "espaco" && x.som !== "apaga")));

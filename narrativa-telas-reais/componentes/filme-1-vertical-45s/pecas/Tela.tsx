@@ -1,5 +1,5 @@
 // A tela do iPhone no palco: a câmera, as trocas de app pela barra de início e o dedo que desliza.
-// v2: a tela aparece inteira na largura (pedido do Jorge: take mais aberto), com cantos arredondados e um respiro azul dos lados.
+// A tela ocupa o quadro inteiro, sem cantos nem fundo à vista, como numa gravação de tela.
 // Tudo é desenhado Z vezes maior e só reduzido pela câmera (escala sempre ≤ 1), sem arredondar a posição (GUIA.md, 7.6).
 import React from "react";
 import { interpolate, useCurrentFrame } from "remotion";
@@ -36,8 +36,7 @@ export const Tela = ({ inicio = 0 }: { inicio?: number }) => {
   return (
     <div name="Tela do iPhone" style={{ position: "absolute", inset: 0, overflow: "hidden", opacity: 1 - some, filter: some > 0 ? `blur(${22 * some}px)` : undefined }}>
       <div name="Câmera" style={{ position: "absolute", left: 0, top: 0, width: TELA.w * Z, height: TELA.h * Z, transformOrigin: "0 0", translate: `${tx}px ${ty}px`, scale: String(s), willChange: "transform" }}>
-        <div name="Sombra da tela" style={{ position: "absolute", inset: 0, borderRadius: TELA.raio * Z, boxShadow: `0 ${24 * Z}px ${70 * Z}px ${-10 * Z}px rgba(2,8,20,.75), 0 ${6 * Z}px ${18 * Z}px rgba(2,8,20,.35)` }} />
-        <div name="Tela em tamanho real" style={{ position: "absolute", left: 0, top: 0, width: TELA.w, height: TELA.h, zoom: Z, overflow: "hidden", borderRadius: TELA.raio, background: "#0A1C33" }}>
+        <div name="Tela em tamanho real" style={{ position: "absolute", left: 0, top: 0, width: TELA.w, height: TELA.h, zoom: Z, overflow: "hidden", background: "#000000" }}>
           {Math.abs(x("whatsapp")) < PASSO ? <Cartao x={x("whatsapp")} e={e}><WhatsAppIOS f={f} /></Cartao> : null}
           {Math.abs(x("claude")) < PASSO ? <Cartao x={x("claude")} e={e}><ClaudeIOS f={f} /></Cartao> : null}
           <Status hora={horaEm(f)} />
