@@ -168,7 +168,8 @@ export const PERGUNTA2 = "Qual anúncio da Viva Sorriso mais vendeu?";
 export const RESPOSTA2 = ["Em novembro, por vendas confirmadas:", "1. Vídeo do clareamento: 23 vendas", "2. Carrossel do aparelho: 4 vendas", "3. Avaliação grátis: 1 venda"];
 export const PERGUNTA3 = "Move pra Negociação quem pediu preço ontem.";
 export const RESPOSTA_MARCELA = "Não perdeu: os 7 já estão em Negociação.";
-const DEFESA = "Mas o custo por conversa caiu. O problema é o atendimento de vocês";
+// Ele para no meio da palavra e apaga (Jorge, 24/11: "parar em \"o problema é o atendimen\" e aí deletar").
+const DEFESA = "Mas o custo por conversa caiu. O problema é o atendimen";
 export const DIG = {
   defesa: digitaEntre(T.dig1, T.desliza - 6, [DEFESA, { pausa: 8 }, { apaga: Array.from(DEFESA).length, ritmo: 0.3 }], 11),
   pergunta: digitaEntre(T.dig2, T.envia - 4, ["Por que a Ótica Central não vendeu ontme", { pausa: 4 }, { apaga: 2, ritmo: 2 }, "em?"], 23),

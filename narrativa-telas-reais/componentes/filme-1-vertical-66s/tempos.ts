@@ -214,7 +214,8 @@ export const PERGUNTA_P = "E a Imobiliária Porto, hoje?";
 const RESPOSTA_BARAO = "Tocou: 9 conversas hoje. 3 sem resposta.";
 const RESPOSTA_EQUIPE = "Pausa o carrossel: só 4 vendas.";
 const DESCULPA = "Desculpa amor, não vai acontecer mais! ❤️";
-const DEFESA = "Mas o custo por conversa caiu. O problema é o atendimento de vocês";
+// Ele para no meio da palavra e apaga (Jorge, 24/11: "parar em \"o problema é o atendimen\" e aí deletar").
+const DEFESA = "Mas o custo por conversa caiu. O problema é o atendimen";
 export const DIG = {
   defesa: digitaEntre(T.dig1, T.desliza - 6, [DEFESA, { pausa: 8 }, { apaga: Array.from(DEFESA).length, ritmo: 0.3 }], 11),
   pergunta: digitaEntre(T.dig2, T.envia - 4, ["Por que a Ótica Central não vendeu ontme", { pausa: 4 }, { apaga: 2, ritmo: 2 }, "em?"], 23),
